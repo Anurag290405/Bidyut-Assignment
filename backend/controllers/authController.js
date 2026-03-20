@@ -88,10 +88,14 @@ export const logoutUser = async (req, res) => {
 // @route   GET /api/auth/profile
 // @access  Private
 export const getUserProfile = async (req, res) => {
+    // Return token from the cookie or header if verified
+    const token = req.cookies.jwt || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+    
     const user = {
         _id: req.user._id,
         username: req.user.username,
         email: req.user.email,
+        token: token
     };
     res.status(200).json(user);
 };
