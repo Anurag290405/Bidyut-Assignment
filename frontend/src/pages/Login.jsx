@@ -2,17 +2,32 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../utils/axios';
 import { theme } from '../theme';
-import { Lock, Mail, MessageSquare } from 'lucide-react';
+import { Lock, Mail, MessageSquare, Eye, EyeOff } from 'lucide-react';
 
 const Login = ({ setUser }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
         setLoading(true);
         setError('');
         try {
@@ -56,10 +71,17 @@ const Login = ({ setUser }) => {
                     <div className="relative group">
                         <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors" size={18} />
                         <input 
-                            type="password" required placeholder="Password"
-                            className={theme.styles.input + " pl-10"} 
+                            type={showPassword ? "text" : "password"} required placeholder="Password"
+                            className={theme.styles.input + " pl-10 pr-10"} 
                             value={password} onChange={e => setPassword(e.target.value)}
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-green-600 focus:outline-none transition-colors p-1"
+                        >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
                     </div>
 
                     <button type="submit" disabled={loading} className={theme.styles.button}>

@@ -29,3 +29,9 @@ body {
   background-size: 200% 200%;
   animation: gradient 15s ease infinite;
 }
+
+/* Hide browser's default password reveal button */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
