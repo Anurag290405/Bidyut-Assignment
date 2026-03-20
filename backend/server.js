@@ -44,17 +44,26 @@ app.set('io', io);
 // Socket JWT Auth Middleware
 io.use((socket, next) => {
     try {
+        let token;
         const cookieString = socket.handshake.headers.cookie;
-        if (!cookieString) return next(new Error('Authentication error: No cookies'));
+        
+        if (cookieString) {
+            const cookies = {};
+            cookieString.split(';').forEach(cookie => {
+                const parts = cookie.split('=');
+                if (parts.length === 2) {
+                    cookies[parts[0].trim()] = decodeURI(parts[1]);
+                }
+            });
+            token = cookies.jwt;
+        }
 
-        const cookies = {};
-        cookieString.split(';').forEach(cookie => {
-            const parts = cookie.split('=');
-            cookies[parts[0].trim()] = decodeURI(parts[1]);
-        });
+        // Check for token in auth object (fallback for mobile)
+        if (!token) {
+            token = socket.handshake.auth.token;
+        }
 
-        const token = cookies.jwt;
-        if (!token) return next(new Error('Authentication error: No JWT token'));
+        if (!token) return next(new Error('Authentication error: No login token found'));
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         socket.user = decoded; // { userId, username, ... }

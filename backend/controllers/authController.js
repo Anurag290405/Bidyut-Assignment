@@ -12,6 +12,8 @@ const generateToken = (res, userId, username) => {
         sameSite: 'none', // Allow cross-domain execution between Vercel & Render
         maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
+
+    return token;
 };
 
 // @desc    Register a new user
@@ -29,11 +31,12 @@ export const registerUser = async (req, res) => {
         const user = await User.create({ username, email, password });
 
         if (user) {
-            generateToken(res, user._id, user.username);
+            const token = generateToken(res, user._id, user.username);
             res.status(201).json({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
+                token: token
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
@@ -53,11 +56,12 @@ export const loginUser = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (user && (await user.matchPassword(password))) {
-            generateToken(res, user._id, user.username);
+            const token = generateToken(res, user._id, user.username);
             res.json({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
+                token: token
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });

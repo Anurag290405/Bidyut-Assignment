@@ -23,7 +23,12 @@ const Chat = ({ user, setUser }) => {
 
         // Connect Socket
         const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://bidyut-assignment.onrender.com';
-        const newSocket = io(BACKEND_URL, { withCredentials: true });
+        const newSocket = io(BACKEND_URL, { 
+            withCredentials: true,
+            auth: {
+                token: user?.token
+            }
+        });
         
         setSocket(newSocket);
         newSocket.on('receiveMessage', (message) => setMessages(prev => [...prev, message]));
