@@ -8,8 +8,8 @@ const generateToken = (res, userId, username) => {
 
     res.cookie('jwt', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
-        sameSite: 'strict', // Prevent CSRF attacks
+        secure: true, // Must be true when sameSite is 'none'
+        sameSite: 'none', // Allow cross-domain execution between Vercel & Render
         maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 };
@@ -73,6 +73,8 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
     res.cookie('jwt', '', {
         httpOnly: true,
+        secure: true,
+        sameSite: 'none',
         expires: new Date(0),
     });
     res.status(200).json({ message: 'Logged out successfully' });
