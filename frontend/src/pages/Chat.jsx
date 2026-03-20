@@ -45,9 +45,9 @@ const Chat = ({ user, setUser }) => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-[#e5ddd5]">
+        <div className="flex flex-col h-[100dvh] w-full bg-[#e5ddd5] overflow-hidden overscroll-none">
             {/* Top Bar */}
-            <header className="flex items-center justify-between px-4 py-3 bg-[#075e54] text-white shadow-md z-10 w-full">
+            <header className="flex items-center justify-between px-4 py-3 bg-[#075e54] text-white shadow-md z-10 w-full shrink-0">
                 <div className="flex flex-col">
                     <h1 className="text-lg font-bold">Campus Chat</h1>
                     <span className="text-xs text-gray-200">Logged in as {user?.username}</span>
@@ -58,7 +58,7 @@ const Chat = ({ user, setUser }) => {
             </header>
 
             {/* Messages Area */}
-            <main className="flex-1 overflow-y-auto p-4 md:p-8 space-y-3 w-full">
+            <main className="flex-1 overflow-y-auto p-4 md:p-8 space-y-3 w-full overscroll-contain">
                 {messages.map((msg, idx) => {
                     const isMe = msg.sender === user?._id || msg.senderName === user?.username;
                     return <MessageBubble key={idx} message={msg} isMe={isMe} />;
@@ -67,7 +67,7 @@ const Chat = ({ user, setUser }) => {
             </main>
 
             {/* Input Area */}
-            <footer className="bg-[#f0f0f0] p-3 shadow-inner w-full">
+            <footer className="bg-[#f0f0f0] p-3 shadow-inner w-full shrink-0">
                 <form onSubmit={handleSend} className="flex max-w-4xl mx-auto gap-2">
                     <input
                         type="text"

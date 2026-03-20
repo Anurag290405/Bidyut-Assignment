@@ -22,7 +22,7 @@ const Register = ({ setUser }) => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex items-center justify-center min-h-[100dvh] bg-gray-100">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow">
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
                 {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
