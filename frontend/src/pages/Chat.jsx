@@ -32,7 +32,8 @@ const Chat = () => {
         fetchMessages();
 
         // Connect to Socket.io with credentials (to send cookies)
-        const newSocket = io('http://localhost:5000', {
+        const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://bidyut-assignment.onrender.com';
+        const newSocket = io(BACKEND_URL, {
             withCredentials: true,
         });
 

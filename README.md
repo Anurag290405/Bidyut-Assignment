@@ -1,5 +1,9 @@
 # Real-Time MERN Chat Application
 
+**Live Links:**
+- **Frontend (Vercel):** [https://bidyut-assignment.vercel.app](https://bidyut-assignment.vercel.app)
+- **Backend (Render):** [https://bidyut-assignment.onrender.com](https://bidyut-assignment.onrender.com)
+
 A production-ready, minimal real-time chat application built using the MERN stack with Socket.io and JWT authentication.
 
 ## Features Implemented
