@@ -19,8 +19,10 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+const frontendUrl = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : 'https://bidyut-assignment.vercel.app';
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://bidyut-assignment.vercel.app',
+    origin: [frontendUrl, 'http://localhost:5173', 'https://bidyut-assignment.vercel.app'],
     credentials: true,
 }));
 
@@ -32,7 +34,7 @@ app.use('/api/messages', messageRoutes);
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL || 'https://bidyut-assignment.vercel.app',
+        origin: [frontendUrl, 'http://localhost:5173', 'https://bidyut-assignment.vercel.app'],
         credentials: true,
     }
 });
